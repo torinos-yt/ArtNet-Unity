@@ -65,12 +65,11 @@ namespace ArtNet
             {
                 try
                 {
-                    EndPoint remoteEp = new IPEndPoint(IPAddress.Any, 0);
-                    var result = await _socket.ReceiveFromAsync(_receiveBuffer, SocketFlags.None, remoteEp);
+                    var result = await _socket.ReceiveAsync(_receiveBuffer, SocketFlags.None);
 
-                    if (result.ReceivedBytes != 0)
+                    if (result != 0)
                     {
-                        OnReceivedPacket?.Invoke(_receiveBuffer, result.ReceivedBytes, result.RemoteEndPoint);
+                        OnReceivedPacket?.Invoke(_receiveBuffer, result, null);
                     }
                 }
                 catch (Exception e) when (e is SocketException or ObjectDisposedException)

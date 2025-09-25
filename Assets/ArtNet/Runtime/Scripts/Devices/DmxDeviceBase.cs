@@ -27,7 +27,7 @@ namespace ArtNet.Devices
         }
 
 
-        public void DmxUpdate(byte[] dmx)
+        public void DmxUpdate(ReadOnlySpan<byte> dmx)
         {
             if (dmx.Length < ChannelNumber)
             {
@@ -36,7 +36,7 @@ namespace ArtNet.Devices
             }
 
             if (dmx.SequenceEqual(DmxData)) return;
-            Buffer.BlockCopy(dmx, 0, DmxData, 0, ChannelNumber);
+            dmx.CopyTo(DmxData);
 
             UpdateProperties();
         }

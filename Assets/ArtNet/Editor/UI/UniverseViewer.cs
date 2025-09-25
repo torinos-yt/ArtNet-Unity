@@ -30,7 +30,7 @@ namespace ArtNet.Editor.UI
         public void SetValueWithoutNotify(ushort newValue)
         {
             _selectedUniverse = newValue;
-            _dmxViewer.value = _dmxManager.DmxValues(_selectedUniverse);
+            _dmxViewer.UpdateValue(_dmxManager.DmxValues(_selectedUniverse));
         }
 
         public DmxManager DmxManager

@@ -40,8 +40,10 @@ namespace ArtNet
 
         private static Dictionary<ushort, IEnumerable<IDmxDevice>> FindDmxDevices()
         {
-            return FindObjectsOfType<GameObject>().SelectMany(o => o.GetComponents<IDmxDevice>())
-                .GroupBy(device => device.Universe).ToDictionary(g => g.Key, g => g as IEnumerable<IDmxDevice>);
+            return FindObjectsByType<GameObject>(FindObjectsSortMode.None)
+                    .SelectMany(o => o.GetComponents<IDmxDevice>())
+                    .GroupBy(device => device.Universe)
+                    .ToDictionary(g => g.Key, g => g as IEnumerable<IDmxDevice>);
         }
 
         public ushort[] Universes()

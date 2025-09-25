@@ -26,6 +26,19 @@ namespace ArtNet.Editor.UI
                 }
             }
         }
+        
+        public void UpdateValue(ReadOnlySpan<byte> data)
+        {
+            if (data.SequenceEqual(value)) return;
+
+            data.CopyTo(value);
+            using (var pooled = ChangeEvent<byte[]>.GetPooled(_dmxValues, value))
+            {
+                pooled.target = this;
+                SetValueWithoutNotify(value);
+                SendEvent(pooled);
+            }
+        }
 
         public void SetValueWithoutNotify(byte[] newValues)
         {
